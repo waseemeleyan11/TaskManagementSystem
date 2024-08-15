@@ -11,7 +11,7 @@
         public int MinLength { get; set; }
         public int MaxLength { get; set; }
         public bool IsDeleted { get; set; }
-
+        //Commit test
         public User User { get; set; } 
         public Task Task { get; set; }
         public Project Project { get; set; }
