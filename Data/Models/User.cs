@@ -12,7 +12,7 @@ namespace TaskManagementSystem.Models
         public DateTime DateRegistration { get; set; }
         public DateTime LastLogin { get; set; }
         public bool IsDeleted { get; set; }
-
+        //AnotherTest
         public int AttachmentId { get; set; }
         public Attachment Attachment { get; set; }
         public Project Project { get; set; }
