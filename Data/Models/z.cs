@@ -4,6 +4,5 @@ public class z
 {
 	public z()
 	{
-
-	}
+			}
 }
