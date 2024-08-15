@@ -6,6 +6,7 @@ using System.Net.Mail;
 
 namespace Project.Data.Model
 {
+    //SamaComment
     public class Project
     {
         [Key]
