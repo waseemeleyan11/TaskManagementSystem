@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Project.Data
+namespace TaskManagementSystem.Data
 {
-    using Project.Data.Model;
-    using System.Net.Mail;
+    using TaskManagementSystem.Data.Models;
 
     public class ProjectContext :DbContext
     {
@@ -14,9 +13,80 @@ namespace Project.Data
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 
         }
-        
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<User>()
+            .HasOne(u => u.Attachment)          // Each User has one Attachment
+            .WithOne(a => a.User)               // Each Attachment has one User
+            .HasForeignKey<User>(u => u.AttachmentId) // Foreign key in User table
+            .OnDelete(DeleteBehavior.Cascade);
+
+            //modelBuilder.Entity<User>().HasMany(u => u.Projects)
+              //  .WithOne(p => p.User).HasForeignKey(p => p.userId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+            .HasMany(u => u.Comments)    
+            .WithOne(c => c.User)       // Each Comment has one User
+            .HasForeignKey(c => c.UserId)  // Foreign key in Comment table
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+            .HasMany(u => u.Tasks)    // A User has many Tasks
+            .WithOne(t => t.User)    // Each Task has one User
+            .HasForeignKey(t => t.UserId)  // Foreign key in Task table
+            .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Task>()
+           .HasMany(t => t.Comments)    // A Task has many Comments
+           .WithOne(c => c.Task)       // Each Comment has one Task
+           .HasForeignKey(c => c.TaskId)  // Foreign key in Comment table
+           .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+           .HasMany(u => u.Sprints)
+           .WithOne(c => c.User)       // Each Comment has one User
+           .HasForeignKey(c => c.UserId)  // Foreign key in Comment table
+           .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+           .HasOne(t => t.Agile)    // A Task has many Comments
+           .WithOne(c => c.User)       // Each Comment has one Task
+           .HasForeignKey<Agile>(c => c.userId)  // Foreign key in Comment table
+           .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Agile>()
+            .HasMany(u => u.Sprints)    // A User has many Tasks
+            .WithOne(t => t.Agile)    // Each Task has one User
+            .HasForeignKey(t => t.AgileId)  // Foreign key in Task table
+            .OnDelete(DeleteBehavior.Cascade);
+
+            /////
+            modelBuilder.Entity<User>()
+           .HasMany(u => u.Tasks)
+           .WithOne(c => c.User)       // Each Comment has one User
+           .HasForeignKey(c => c.UserId)  // Foreign key in Comment table
+           .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+           .HasOne(t => t.Waterfall)    // A Task has many Comments
+           .WithOne(c => c.User)       // Each Comment has one Task
+           .HasForeignKey<Waterfall>(c => c.userId)  // Foreign key in Comment table
+           .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Waterfall>()
+            .HasMany(u => u.Tasks)    // A User has many Tasks
+            .WithOne(t => t.Waterfall)    // Each Task has one User
+            .HasForeignKey(t => t.ProjectId)  // Foreign key in Task table
+            .OnDelete(DeleteBehavior.Cascade);
+
+
+
+
+        }
 
         public DbSet<Project> Projects { get; set; }
         public DbSet<User> Users { get; set; }
@@ -24,10 +94,10 @@ namespace Project.Data
         public DbSet<Agile> Agiles { get; set; }
         public DbSet<Waterfall> Waterfalls { get; set; }
         public DbSet<Sprint> Sprints { get; set; }
-        public DbSet<Tasks> Tasks { get; set; }
+        public DbSet<Task> Tasks { get; set; }
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<TaskUser> TaskUsers { get; set; }
+        public DbSet<UserTask> UserTasks { get; set; }
 
 
 

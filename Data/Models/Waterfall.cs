@@ -1,4 +1,4 @@
-﻿namespace Project.Data.Model
+﻿namespace TaskManagementSystem.Data.Models   
 {
     public class Waterfall : Project
     {
