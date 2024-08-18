@@ -1,4 +1,4 @@
-﻿namespace Project.Data.Model
+﻿namespace TaskManagementSystem.Models
 {
     public class Agile : Project
 

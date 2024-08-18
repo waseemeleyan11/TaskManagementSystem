@@ -1,4 +1,4 @@
-﻿namespace TaskManagementSystem.Data.Models
+﻿namespace TaskManagementSystem.Models
 {
     public class FF
     {

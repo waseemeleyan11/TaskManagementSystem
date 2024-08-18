@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Project.Data.Model
+namespace TaskManagementSystem.Models
 {
     public class Sprint
     {

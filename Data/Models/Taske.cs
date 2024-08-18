@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Mail;
 using System.Xml.Linq;
 
-namespace Project.Model
+namespace TaskManagementSystem.Models
 {
     public class Taske
     {
