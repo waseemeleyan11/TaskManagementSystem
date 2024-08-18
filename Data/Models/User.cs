@@ -1,6 +1,5 @@
-﻿using System.Xml.Linq;
-
-namespace TaskManagementSystem.Models
+﻿
+namespace TaskManagementSystem.Data.Models
 {
     public class User
     {
@@ -18,24 +17,13 @@ namespace TaskManagementSystem.Models
         public Attachment Attachment { get; set; }
         public Project Project { get; set; }
         public ProjectUser ProjectUser { get; set; }
-        public User_Task User_Task { get; set; }
+        public UserTask UserTask { get; set; }
         public Waterfall Waterfall { get; set; }
         public Task Task { get; set; }
         public Sprint Sprint { get; set; }
         public Agile Agile { get; set; }
         public Comment Comment { get; set; }
 
-
-
-
-
-
-
-
-
-
-
     }
-
 
 }

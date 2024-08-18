@@ -1,6 +1,6 @@
-﻿namespace TaskManagementSystem.Models
+﻿namespace TaskManagementSystem.Data.Models
 {
-    public class User_Task
+    public class UserTask
     {
         public ICollection<Task> Tasks { get; set; } = new List<Task>();
 
