@@ -1,5 +1,4 @@
-﻿ namespace TaskManagementSystem.Data.Models
-
+﻿namespace TaskManagementSystem.Data.Models
 {
     public class Attachment
     {

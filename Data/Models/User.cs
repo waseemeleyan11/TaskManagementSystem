@@ -1,4 +1,3 @@
-﻿using TaskManagementSystem.Data.Models;
 
 namespace TaskManagementSystem.Data.Models
 {
@@ -17,6 +16,9 @@ namespace TaskManagementSystem.Data.Models
         //Test
         public Attachment Attachment { get; set; }
         public Project Project { get; set; }
+
+        public ProjectUser ProjectUser { get; set; }
+
         public UserTask UserTask { get; set; }
         public Waterfall Waterfall { get; set; }
       //  public Task Task { get; set; }
