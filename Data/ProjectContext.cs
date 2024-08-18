@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Project.Data
+namespace TaskManagementSystem.Models
 {
     using Project.Data.Model;
     using System.Net.Mail;
