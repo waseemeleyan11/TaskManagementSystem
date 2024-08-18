@@ -26,15 +26,6 @@ namespace TaskManagementSystem.Models
         public Comment Comment { get; set; }
 
 
-
-
-
-
-
-
-
-
-
     }
 
 
