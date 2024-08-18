@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Mail;
 using System.Xml.Linq;
 
+
 namespace TaskManagementSystem.Data.Models
 {
     public class Task
@@ -21,12 +22,17 @@ namespace TaskManagementSystem.Data.Models
 
         [ForeignKey(nameof(Project))]
         public int ProjectId { get; set; }
+       // public Project Project { get; set; }
+        public Waterfall Waterfall { get; set; }
         public Project Project { get; set; }
         [ForeignKey(nameof(User))]
         public int UserId { get; set; }
         public User User { get; set; }
         [ForeignKey(nameof(Attachments))]
         public int AttachmentId { get; set; }
+        public Attachment Attachments { get; set; }
+        
+
         public Attachments Attachments { get; set; }
         public ICollection<Comment> Comments { get; set; }
     }

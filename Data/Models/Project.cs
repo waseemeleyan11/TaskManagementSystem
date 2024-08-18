@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Mail;
+using TaskManagementSystem.Data.Models;
 
 namespace TaskManagementSystem.Data.Models
 {
@@ -27,13 +28,13 @@ namespace TaskManagementSystem.Data.Models
         public bool isDeleted { get; set; }
         public User User { get; set; }
         [Required]
-        [ForeignKey(nameof(User))]
         public int userId { get; set; }
         public ICollection<ProjectUser> projectUsers { get; set; }
         public Attachment Attachment { get; set; }
         [Required]
         [ForeignKey(nameof(Attachment))]
         public int attachmentId { get; set; }
+        
 
 
 

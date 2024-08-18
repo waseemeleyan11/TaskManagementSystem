@@ -1,4 +1,6 @@
-﻿namespace TaskManagementSystem.Data.Models
+﻿using TaskManagementSystem.Data.Models;
+
+namespace TaskManagementSystem.Data.Models
 {
     public class UserTask
     {

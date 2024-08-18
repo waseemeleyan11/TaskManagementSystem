@@ -5,6 +5,9 @@
     {
 
         public int TimeForEageSprint { get; set; }
+       // User User { get; set; }
+        //public int UserId { get; set; }
+
         public ICollection<Sprint> Sprints { get; set; }
     }
 }
