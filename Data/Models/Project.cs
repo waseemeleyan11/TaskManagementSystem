@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Net.Mail;
 
-namespace Project.Data.Model
+namespace TaskManagementSystem.Models
 {
     //SamaComment
     public class Project
