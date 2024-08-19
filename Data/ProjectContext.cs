@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TaskManagementSystem.Data.Models;
+using Task = TaskManagementSystem.Data.Models.Task;
 
 
 namespace TaskManagementSystem.Data
@@ -7,17 +9,20 @@ namespace TaskManagementSystem.Data
     using TaskManagementSystem.Data.Models;
 
     public class ProjectContext :DbContext
+    public class ProjectContext : DbContext
     {
-        IConfiguration configuration;
+        private readonly IConfiguration _configuration;
+
         public ProjectContext(IConfiguration configuration)
         {
-            this.configuration = configuration;
+            _configuration = configuration;
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-
+            optionsBuilder.UseSqlServer(_configuration.GetConnectionString("DefaultConnection"));
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -74,6 +79,10 @@ namespace TaskManagementSystem.Data
               .WithOne(c => c.User)       
               .HasForeignKey(c => c.UserId)   
               .OnDelete(DeleteBehavior.Cascade);
+                .HasMany(u => u.Comments)
+                .WithOne(c => c.User)
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>()
               .HasMany(u => u.Tasks)   
@@ -92,6 +101,12 @@ namespace TaskManagementSystem.Data
              .WithOne(c => c.Task)       // Each Comment has one Task
              .HasForeignKey(c => c.TaskId)  // Foreign key in Comment table
              .OnDelete(DeleteBehavior.Cascade);
+            // Task-Comment (One-to-Many) Configuration
+            modelBuilder.Entity<Task>()
+                .HasMany(t => t.Comments)
+                .WithOne(c => c.Task)
+                .HasForeignKey(c => c.TaskId)
+                .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Agile>()
               .HasMany(u => u.Sprints)    // A User has many Tasks
@@ -103,6 +118,12 @@ namespace TaskManagementSystem.Data
             /*
 
               
+            // User-Sprint (One-to-Many) Configuration
+            modelBuilder.Entity<User>()
+           .HasMany(u => u.Sprints)
+           .WithOne(c => c.User)       // Each Comment has one User
+           .HasForeignKey(c => c.UserId)  // Foreign key in Comment table
+           .OnDelete(DeleteBehavior.Cascade);
 
           //    modelBuilder.Entity<User>()
            //  .HasMany(t => t.Agiles)    // A Task has many Comments
@@ -111,6 +132,12 @@ namespace TaskManagementSystem.Data
             // .OnDelete(DeleteBehavior.Cascade);
 
               
+            // Agile-Sprint (One-to-Many) Configuration
+            modelBuilder.Entity<Agile>()
+            .HasMany(u => u.Sprints)    // A User has many Tasks
+            .WithOne(t => t.Agile)    // Each Task has one User
+            .HasForeignKey(t => t.AgileId)  // Foreign key in Task table
+            .OnDelete(DeleteBehavior.Cascade);
 
               /////
 
@@ -150,6 +177,7 @@ namespace TaskManagementSystem.Data
 
         }
 
+        // DbSets for the 10 Models
         public DbSet<Project> Projects { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<ProjectUser> ProjectUsers { get; set; }
@@ -160,10 +188,5 @@ namespace TaskManagementSystem.Data
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<UserTask> UserTasks { get; set; }
-
-
-
-
-
     }
 }

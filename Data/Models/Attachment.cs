@@ -12,8 +12,6 @@ namespace TaskManagementSystem.Data.Models
         public long Size { get; set; }
         public string PhysicalPath { get; set; }
         public string Type { get; set; }
-        public int MinLength { get; set; }
-        public int MaxLength { get; set; }
         public bool IsDeleted { get; set; }
         //Commit test
         
@@ -22,6 +20,8 @@ namespace TaskManagementSystem.Data.Models
         public Task Task { get; set; }
         public Project Project { get; set; }
 
+
+        public User User { get; set; }
     }
 }
 

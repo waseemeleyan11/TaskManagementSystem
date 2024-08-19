@@ -8,12 +8,10 @@ namespace TaskManagementSystem.Data.Models
 {
     public class Task
     {
-        [Key ]
         public int Id { get; set; }
-
         public string Name { get; set; }
-        public DateTime startDate { get; set; }
-        public DateTime endDate { get; set; }   
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
         public string Status { get; set; }
         public string DescriptionAttagement { get; set; }
         public int priority { get; set; }
@@ -34,8 +32,17 @@ namespace TaskManagementSystem.Data.Models
         
         
         
-
+        public int AttachmentId { get; set; }
+        public Attachment Attachments { get; set; }
+        
+        public int AttachmentId { get; set; }
         */
+        public int AttachmentId { get; set; }
+        public ICollection<UserTask> UserTasks { get; set; }
+        public ICollection<Comment> Comments { get; set; }
+
+        public ICollection<UserTask> UserTasks { get; set; }
+        public ICollection<Comment> Comments { get; set; }
         public ICollection<UserTask> UserTasks { get; set; }
 
     }
