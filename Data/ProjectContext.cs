@@ -5,10 +5,8 @@ using Task = TaskManagementSystem.Data.Models.Task;
 
 namespace TaskManagementSystem.Data
 {
-    using Microsoft.VisualBasic;
     using TaskManagementSystem.Data.Models;
 
-    public class ProjectContext :DbContext
     public class ProjectContext : DbContext
     {
         private readonly IConfiguration _configuration;
@@ -50,7 +48,7 @@ namespace TaskManagementSystem.Data
        
 
            modelBuilder.Entity<User>().HasMany(u => u.ProjectUsers)
-               .WithOne(p => p.User).HasForeignKey(p => p.userId).OnDelete(DeleteBehavior.Cascade);
+               .WithOne(p => p.).HasForeignKey(p => p.userId).OnDelete(DeleteBehavior.Cascade);
        
             modelBuilder.Entity<ProjectUser>().HasKey(a => new { a.userId, a.projectId });
 
