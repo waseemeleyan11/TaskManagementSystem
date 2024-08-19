@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-//19/8
 
 namespace TaskManagementSystem.Data.Models
 {
@@ -24,8 +23,8 @@ namespace TaskManagementSystem.Data.Models
         public Waterfall Waterfall { get; set; }
         public int? AttachmentId { get; set; }
         public Attachment Attachment { get; set; }
-        public int CreatedById { get; set; }
-        public User CreatedBy { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
         public ICollection<UserTask> UserTasks { get; set; }
         public ICollection<Comment> Comments { get; set; }
     }

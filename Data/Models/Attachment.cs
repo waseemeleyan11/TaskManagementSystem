@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-//19/8
 
 namespace TaskManagementSystem.Data.Models
 {

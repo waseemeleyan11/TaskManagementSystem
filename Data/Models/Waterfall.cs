@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-//19/8
 
 namespace TaskManagementSystem.Data.Models
 {
