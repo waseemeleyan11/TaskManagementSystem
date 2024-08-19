@@ -1,8 +1,11 @@
-﻿ namespace TaskManagementSystem.Data.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TaskManagementSystem.Data.Models
 
 {
     public class Attachment
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public string Path { get; set; }

@@ -32,5 +32,7 @@ namespace TaskManagementSystem.Data.Models
         public Attachment Attachments { get; set; }
         
         public ICollection<Comment> Comments { get; set; }
+        public ICollection<UserTask> UserTasks { get; set; }
+
     }
 }
