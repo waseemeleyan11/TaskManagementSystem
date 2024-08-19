@@ -1,17 +1,34 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-//19/8
 
 #nullable disable
 
 namespace TaskManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdatedMigration : Migration
+    public partial class data : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Attachments",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Size = table.Column<long>(type: "bigint", nullable: false),
+                    PhysicalPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Attachments", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -30,6 +47,11 @@ namespace TaskManagementSystem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Attachments_ProfilePicId",
+                        column: x => x.ProfilePicId,
+                        principalTable: "Attachments",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -51,11 +73,16 @@ namespace TaskManagementSystem.Migrations
                 {
                     table.PrimaryKey("PK_Projects", x => x.ProjectId);
                     table.ForeignKey(
+                        name: "FK_Projects_Attachments_AttachmentId",
+                        column: x => x.AttachmentId,
+                        principalTable: "Attachments",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Projects_Users_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -73,7 +100,7 @@ namespace TaskManagementSystem.Migrations
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "ProjectId",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -93,13 +120,13 @@ namespace TaskManagementSystem.Migrations
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "ProjectId",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ProjectUsers_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -117,7 +144,7 @@ namespace TaskManagementSystem.Migrations
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "ProjectId",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -142,13 +169,13 @@ namespace TaskManagementSystem.Migrations
                         column: x => x.AgileId,
                         principalTable: "AgileProjects",
                         principalColumn: "ProjectId",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Sprints_Users_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,62 +200,26 @@ namespace TaskManagementSystem.Migrations
                 {
                     table.PrimaryKey("PK_Tasks", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Tasks_Attachments_AttachmentId",
+                        column: x => x.AttachmentId,
+                        principalTable: "Attachments",
+                        principalColumn: "Id");
+                    table.ForeignKey(
                         name: "FK_Tasks_Sprints_SprintId",
                         column: x => x.SprintId,
                         principalTable: "Sprints",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Tasks_Users_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Tasks_WaterfallProjects_WaterfallId",
                         column: x => x.WaterfallId,
                         principalTable: "WaterfallProjects",
-                        principalColumn: "ProjectId",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Attachments",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Path = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Size = table.Column<long>(type: "bigint", nullable: false),
-                    PhysicalPath = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true),
-                    ProjectId = table.Column<int>(type: "int", nullable: true),
-                    TaskId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Attachments", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Attachments_Projects_ProjectId",
-                        column: x => x.ProjectId,
-                        principalTable: "Projects",
-                        principalColumn: "ProjectId",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
-                    table.ForeignKey(
-                        name: "FK_Attachments_Tasks_TaskId",
-                        column: x => x.TaskId,
-                        principalTable: "Tasks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
-                    table.ForeignKey(
-                        name: "FK_Attachments_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        principalColumn: "ProjectId");
                 });
 
             migrationBuilder.CreateTable(
@@ -251,13 +242,13 @@ namespace TaskManagementSystem.Migrations
                         column: x => x.TaskId,
                         principalTable: "Tasks",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Comments_Users_CreatedById",
                         column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -277,35 +268,14 @@ namespace TaskManagementSystem.Migrations
                         column: x => x.TaskId,
                         principalTable: "Tasks",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_UserTasks_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);  // Restrict instead of Cascade
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Attachments_ProjectId",
-                table: "Attachments",
-                column: "ProjectId",
-                unique: true,
-                filter: "[ProjectId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Attachments_TaskId",
-                table: "Attachments",
-                column: "TaskId",
-                unique: true,
-                filter: "[TaskId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Attachments_UserId",
-                table: "Attachments",
-                column: "UserId",
-                unique: true,
-                filter: "[UserId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_CreatedById",
@@ -316,6 +286,13 @@ namespace TaskManagementSystem.Migrations
                 name: "IX_Comments_TaskId",
                 table: "Comments",
                 column: "TaskId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Projects_AttachmentId",
+                table: "Projects",
+                column: "AttachmentId",
+                unique: true,
+                filter: "[AttachmentId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_CreatedById",
@@ -343,6 +320,13 @@ namespace TaskManagementSystem.Migrations
                 column: "CreatedById");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tasks_AttachmentId",
+                table: "Tasks",
+                column: "AttachmentId",
+                unique: true,
+                filter: "[AttachmentId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tasks_CreatedById",
                 table: "Tasks",
                 column: "CreatedById");
@@ -358,6 +342,13 @@ namespace TaskManagementSystem.Migrations
                 column: "WaterfallId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Users_ProfilePicId",
+                table: "Users",
+                column: "ProfilePicId",
+                unique: true,
+                filter: "[ProfilePicId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserTasks_TaskId",
                 table: "UserTasks",
                 column: "TaskId");
@@ -368,13 +359,9 @@ namespace TaskManagementSystem.Migrations
                 column: "UserId");
         }
 
-
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Attachments");
-
             migrationBuilder.DropTable(
                 name: "Comments");
 
@@ -401,6 +388,9 @@ namespace TaskManagementSystem.Migrations
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Attachments");
         }
     }
 }
