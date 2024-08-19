@@ -1,6 +1,5 @@
 using System;
 using System.ComponentModel.DataAnnotations;
-//19/8 v2
 
 namespace TaskManagementSystem.Data.Models
 {
@@ -15,7 +14,7 @@ namespace TaskManagementSystem.Data.Models
         // Relationships
         public int TaskId { get; set; }
         public Task Task { get; set; }
-        public int CreatedById { get; set; }
-        public User CreatedBy { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }
