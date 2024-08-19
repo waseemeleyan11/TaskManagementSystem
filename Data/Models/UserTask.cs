@@ -4,10 +4,10 @@ namespace TaskManagementSystem.Data.Models
 {
     public class UserTask
     {
-        public ICollection<Task> Tasks { get; set; } = new List<Task>();
+        public int UserId { get; set; }
+        public User User { get; set; }
 
-        public ICollection<User> Users { get; set; } = new List<User>();
-
-
+        public int TaskId { get; set; }
+        public Task Task { get; set; }
     }
 }

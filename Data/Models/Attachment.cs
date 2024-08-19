@@ -8,14 +8,9 @@
         public long Size { get; set; }
         public string PhysicalPath { get; set; }
         public string Type { get; set; }
-        public int MinLength { get; set; }
-        public int MaxLength { get; set; }
         public bool IsDeleted { get; set; }
-        //Commit test
-        public User User { get; set; } 
-        public Task Task { get; set; }
-        public Project Project { get; set; }
 
+        public User User { get; set; }
     }
 }
 
