@@ -12,10 +12,10 @@ namespace TaskManagementSystem.Data.Models
         public int MaxLength { get; set; }
         public string Type { get; set; }
         public bool IsDeleted { get; set; }
-        [ForeignKey(nameof(Task))]
+        
         public int TaskId { get; set; }
         public Task Task { get; set; }
-        [ForeignKey(nameof(User))]
+        
         public int UserId { get; set; }
         public User User { get; set; }
     }

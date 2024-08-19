@@ -12,8 +12,8 @@ using TaskManagementSystem.Data;
 namespace TaskManagementSystem.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20240818181449_newStart2")]
-    partial class newStart2
+    [Migration("20240819083850_UserAttachment")]
+    partial class UserAttachment
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -87,9 +87,6 @@ namespace TaskManagementSystem.Migrations
                     b.Property<int>("MinLength")
                         .HasColumnType("int");
 
-                    b.Property<int>("TaskId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -98,8 +95,6 @@ namespace TaskManagementSystem.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("CommentId");
-
-                    b.HasIndex("TaskId");
 
                     b.HasIndex("UserId");
 
@@ -113,11 +108,6 @@ namespace TaskManagementSystem.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("projectId"));
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(13)
-                        .HasColumnType("nvarchar(13)");
 
                     b.Property<int>("attachmentId")
                         .HasColumnType("int");
@@ -156,11 +146,9 @@ namespace TaskManagementSystem.Migrations
 
                     b.HasIndex("userID");
 
-                    b.ToTable("ProjectF", (string)null);
+                    b.ToTable("Projects");
 
-                    b.HasDiscriminator().HasValue("Project");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("TaskManagementSystem.Data.Models.ProjectUser", b =>
@@ -191,9 +179,6 @@ namespace TaskManagementSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int>("AgileId")
-                        .HasColumnType("int");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -217,8 +202,6 @@ namespace TaskManagementSystem.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("id");
-
-                    b.HasIndex("AgileId");
 
                     b.HasIndex("UserId");
 
@@ -244,17 +227,11 @@ namespace TaskManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProjectId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SprintId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("WaterfallprojectId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("endDate")
@@ -271,11 +248,7 @@ namespace TaskManagementSystem.Migrations
                     b.HasIndex("AttachmentId")
                         .IsUnique();
 
-                    b.HasIndex("ProjectId");
-
-                    b.HasIndex("SprintId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("WaterfallprojectId");
 
                     b.ToTable("Tasks");
                 });
@@ -347,12 +320,7 @@ namespace TaskManagementSystem.Migrations
                     b.Property<int>("TimeForEageSprint")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("UserId");
-
-                    b.HasDiscriminator().HasValue("Agile");
+                    b.ToTable("Agiles", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagementSystem.Data.Models.Waterfall", b =>
@@ -362,29 +330,16 @@ namespace TaskManagementSystem.Migrations
                     b.Property<DateTime>("ExpectedEndTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId1")
-                        .HasColumnType("int");
-
-                    b.HasIndex("UserId1");
-
-                    b.HasDiscriminator().HasValue("Waterfall");
+                    b.ToTable("Waterfalls", (string)null);
                 });
 
             modelBuilder.Entity("TaskManagementSystem.Data.Models.Comment", b =>
                 {
-                    b.HasOne("TaskManagementSystem.Data.Models.Task", "Task")
-                        .WithMany("Comments")
-                        .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TaskManagementSystem.Data.Models.User", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Task");
 
                     b.Navigation("User");
                 });
@@ -394,13 +349,13 @@ namespace TaskManagementSystem.Migrations
                     b.HasOne("TaskManagementSystem.Data.Models.Attachment", "Attachment")
                         .WithOne("Project")
                         .HasForeignKey("TaskManagementSystem.Data.Models.Project", "attachmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TaskManagementSystem.Data.Models.User", "User")
                         .WithMany("Projects")
                         .HasForeignKey("userID")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Attachment");
@@ -429,56 +384,28 @@ namespace TaskManagementSystem.Migrations
 
             modelBuilder.Entity("TaskManagementSystem.Data.Models.Sprint", b =>
                 {
-                    b.HasOne("TaskManagementSystem.Data.Models.Agile", "Agile")
-                        .WithMany("Sprints")
-                        .HasForeignKey("AgileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TaskManagementSystem.Data.Models.User", "User")
                         .WithMany("Sprints")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Agile");
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("TaskManagementSystem.Data.Models.Task", b =>
                 {
-                    b.HasOne("TaskManagementSystem.Data.Models.Attachment", "Attachments")
+                    b.HasOne("TaskManagementSystem.Data.Models.Attachment", "Attachment")
                         .WithOne("Task")
                         .HasForeignKey("TaskManagementSystem.Data.Models.Task", "AttachmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("TaskManagementSystem.Data.Models.Waterfall", "Waterfall")
+                    b.HasOne("TaskManagementSystem.Data.Models.Waterfall", null)
                         .WithMany("Tasks")
-                        .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("WaterfallprojectId");
 
-                    b.HasOne("TaskManagementSystem.Data.Models.Sprint", "Sprint")
-                        .WithMany("Tasks")
-                        .HasForeignKey("SprintId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TaskManagementSystem.Data.Models.User", "User")
-                        .WithMany("Tasks")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Attachments");
-
-                    b.Navigation("Sprint");
-
-                    b.Navigation("User");
-
-                    b.Navigation("Waterfall");
+                    b.Navigation("Attachment");
                 });
 
             modelBuilder.Entity("TaskManagementSystem.Data.Models.User", b =>
@@ -494,13 +421,13 @@ namespace TaskManagementSystem.Migrations
             modelBuilder.Entity("TaskManagementSystem.Data.Models.UserTask", b =>
                 {
                     b.HasOne("TaskManagementSystem.Data.Models.Task", "Task")
-                        .WithMany("UserTasks")
+                        .WithMany()
                         .HasForeignKey("TaskID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TaskManagementSystem.Data.Models.User", "User")
-                        .WithMany("UserTasks")
+                        .WithMany()
                         .HasForeignKey("userID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -512,16 +439,18 @@ namespace TaskManagementSystem.Migrations
 
             modelBuilder.Entity("TaskManagementSystem.Data.Models.Agile", b =>
                 {
-                    b.HasOne("TaskManagementSystem.Data.Models.User", null)
-                        .WithMany("Agiles")
-                        .HasForeignKey("UserId");
+                    b.HasOne("TaskManagementSystem.Data.Models.Project", null)
+                        .WithOne()
+                        .HasForeignKey("TaskManagementSystem.Data.Models.Agile", "projectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TaskManagementSystem.Data.Models.Waterfall", b =>
                 {
-                    b.HasOne("TaskManagementSystem.Data.Models.User", null)
-                        .WithMany("Waterfalls")
-                        .HasForeignKey("UserId1")
+                    b.HasOne("TaskManagementSystem.Data.Models.Project", null)
+                        .WithOne()
+                        .HasForeignKey("TaskManagementSystem.Data.Models.Waterfall", "projectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -543,39 +472,14 @@ namespace TaskManagementSystem.Migrations
                     b.Navigation("ProjectUsers");
                 });
 
-            modelBuilder.Entity("TaskManagementSystem.Data.Models.Sprint", b =>
-                {
-                    b.Navigation("Tasks");
-                });
-
-            modelBuilder.Entity("TaskManagementSystem.Data.Models.Task", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("UserTasks");
-                });
-
             modelBuilder.Entity("TaskManagementSystem.Data.Models.User", b =>
                 {
-                    b.Navigation("Agiles");
-
                     b.Navigation("Comments");
 
                     b.Navigation("ProjectUsers");
 
                     b.Navigation("Projects");
 
-                    b.Navigation("Sprints");
-
-                    b.Navigation("Tasks");
-
-                    b.Navigation("UserTasks");
-
-                    b.Navigation("Waterfalls");
-                });
-
-            modelBuilder.Entity("TaskManagementSystem.Data.Models.Agile", b =>
-                {
                     b.Navigation("Sprints");
                 });
 

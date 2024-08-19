@@ -25,16 +25,17 @@ namespace TaskManagementSystem.Data.Models
         public string link { get; set; }
         [DefaultValue(false)]
         public bool isDeleted { get; set; }
+        
         public User User { get; set; }
-
         public int userID { get; set; }
         public ICollection<ProjectUser> ProjectUsers { get; set; }
+
+        
         public Attachment Attachment { get; set; }
 
         [Required]
-        [ForeignKey(nameof(Attachment))]
         public int attachmentId { get; set; }
-        
+
 
 
 
