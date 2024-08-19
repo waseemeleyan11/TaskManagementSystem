@@ -2,8 +2,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Net.Mail;
-using TaskManagementSystem.Data.Models;
+using System.Diagnostics.CodeAnalysis;
 
 namespace TaskManagementSystem.Data.Models
 {
@@ -11,7 +10,7 @@ namespace TaskManagementSystem.Data.Models
     public class Project
     {
         [Key]
-        public int id { get; set; }
+        public int projectId { get; set; }
         [Required]
         [StringLength(128)]
         public string name { get; set; }
@@ -27,10 +26,11 @@ namespace TaskManagementSystem.Data.Models
         [DefaultValue(false)]
         public bool isDeleted { get; set; }
         public User User { get; set; }
-        [Required]
-        public int userId { get; set; }
-        public ICollection<ProjectUser> projectUsers { get; set; }
+
+        public int userID { get; set; }
+        public ICollection<ProjectUser> ProjectUsers { get; set; }
         public Attachment Attachment { get; set; }
+
         [Required]
         [ForeignKey(nameof(Attachment))]
         public int attachmentId { get; set; }

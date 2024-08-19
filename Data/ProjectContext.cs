@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
+
 namespace TaskManagementSystem.Data
 {
     using TaskManagementSystem.Data.Models;
@@ -19,14 +20,37 @@ namespace TaskManagementSystem.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+
+
+            modelBuilder.Entity<Project>()
+            .ToTable("ProjectF");
+
             modelBuilder.Entity<User>()
-            .HasOne(u => u.Attachment)          // Each User has one Attachment
-            .WithOne(a => a.User)               // Each Attachment has one User
-            .HasForeignKey<User>(u => u.AttachmentId) // Foreign key in User table
+            .HasOne(u => u.Attachment)          // E
+            .WithOne(a => a.User)               
+            .HasForeignKey<User>(u => u.AttachmentId) 
             .OnDelete(DeleteBehavior.Cascade);
 
-            //modelBuilder.Entity<User>().HasMany(u => u.Projects)
-              //  .WithOne(p => p.User).HasForeignKey(p => p.userId).OnDelete(DeleteBehavior.Cascade);
+            
+
+            modelBuilder.Entity<Project>().HasOne<User>(u=>u.User)
+                .WithMany(u => u.Projects).HasForeignKey(p => p.userID);
+
+        
+
+            modelBuilder.Entity<User>().HasMany(u => u.ProjectUsers)
+                .WithOne(p => p.User).HasForeignKey(p => p.userId).OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<ProjectUser>().HasKey(a => new { a.userId, a.projectId });
+
+            modelBuilder.Entity<UserTask>().HasKey(a => new { a.userID,a.TaskID });
+            
+
+            modelBuilder.Entity<Project>().HasMany(u => u.ProjectUsers)
+               .WithOne(p => p.Project).HasForeignKey(p => p.projectId);
+
+            
 
             modelBuilder.Entity<User>()
             .HasMany(u => u.Comments)    
@@ -52,11 +76,11 @@ namespace TaskManagementSystem.Data
            .HasForeignKey(c => c.UserId)  // Foreign key in Comment table
            .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<User>()
-           .HasOne(t => t.Agile)    // A Task has many Comments
-           .WithOne(c => c.User)       // Each Comment has one Task
-           .HasForeignKey<Agile>(c => c.userId)  // Foreign key in Comment table
-           .OnDelete(DeleteBehavior.Cascade);
+        //    modelBuilder.Entity<User>()
+         //  .HasMany(t => t.Agiles)    // A Task has many Comments
+          // .WithOne(c => c.User)       // Each Comment has one Task
+          // .HasForeignKey(c => c.userId)  // Foreign key in Comment table
+          // .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Agile>()
             .HasMany(u => u.Sprints)    // A User has many Tasks
@@ -65,25 +89,30 @@ namespace TaskManagementSystem.Data
             .OnDelete(DeleteBehavior.Cascade);
 
             /////
-            modelBuilder.Entity<User>()
-           .HasMany(u => u.Tasks)
-           .WithOne(c => c.User)       // Each Comment has one User
-           .HasForeignKey(c => c.UserId)  // Foreign key in Comment table
-           .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<User>()
-           .HasOne(t => t.Waterfall)    // A Task has many Comments
-           .WithOne(c => c.User)       // Each Comment has one Task
-           .HasForeignKey<Waterfall>(c => c.userId)  // Foreign key in Comment table
-           .OnDelete(DeleteBehavior.Cascade);
 
+            // modelBuilder.Entity<User>()
+            // .HasMany(t => t.Waterfalls)    // A Task has many Comments
+            // .WithOne(c => c.User)       // Each Comment has one Task
+            // .HasForeignKey(c => c.userId)  // Foreign key in Comment table
+            // .OnDelete(DeleteBehavior.Cascade);
+
+        //    modelBuilder.Entity<Waterfall>().HasOne<User>(u => u.User)
+           //     .WithMany(u => u.Waterfalls).HasForeignKey(u=> u.userId);
+           //
             modelBuilder.Entity<Waterfall>()
             .HasMany(u => u.Tasks)    // A User has many Tasks
             .WithOne(t => t.Waterfall)    // Each Task has one User
             .HasForeignKey(t => t.ProjectId)  // Foreign key in Task table
             .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<User>().HasMany(u => u.UserTasks)
+                .WithOne(c => c.User)
+                .HasForeignKey(t => t.userID);
 
+            modelBuilder.Entity<Task>().HasMany(u => u.UserTasks)
+                .WithOne(c => c.Task)
+                .HasForeignKey(t => t.TaskID);
 
 
         }
