@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-//19/8
+//19/8 v2
 
 namespace TaskManagementSystem.Data.Models
 {
@@ -23,8 +23,8 @@ namespace TaskManagementSystem.Data.Models
         public bool IsDeleted { get; set; }
 
         // Relationships
-        public int CreatedById { get; set; }
-        public User CreatedBy { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
         public ICollection<ProjectUser> ProjectUsers { get; set; }
         public int? AttachmentId { get; set; }
         public Attachment Attachment { get; set; }

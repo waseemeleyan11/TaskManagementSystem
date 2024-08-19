@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-//19/8
+//19/8 v2
 
 namespace TaskManagementSystem.Data.Models
 {
@@ -18,8 +18,8 @@ namespace TaskManagementSystem.Data.Models
         // Relationships
         public int AgileId { get; set; }
         public Agile Agile { get; set; }
-        public int CreatedById { get; set; }
-        public User CreatedBy { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
         public ICollection<Task> Tasks { get; set; }
     }
 }

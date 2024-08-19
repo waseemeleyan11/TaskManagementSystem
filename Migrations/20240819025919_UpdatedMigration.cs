@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-//19/8
+//19/8 v2
 
 #nullable disable
 
