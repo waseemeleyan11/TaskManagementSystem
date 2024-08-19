@@ -1,7 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Net.Mail;
-using System.Xml.Linq;
 
 
 namespace TaskManagementSystem.Data.Models
@@ -37,13 +35,8 @@ namespace TaskManagementSystem.Data.Models
         
         public int AttachmentId { get; set; }
         */
-        public int AttachmentId { get; set; }
         public ICollection<UserTask> UserTasks { get; set; }
-        public ICollection<Comment> Comments { get; set; }
 
-        public ICollection<UserTask> UserTasks { get; set; }
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<UserTask> UserTasks { get; set; }
 
     }
 }

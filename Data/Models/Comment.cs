@@ -1,5 +1,5 @@
+using System.ComponentModel.DataAnnotations;
 using TaskManagementSystem.Data.Models;
-using Task = TaskManagementSystem.Data.Models.Task;
 
 namespace TaskManagementSystem.Data.Models 
 {
@@ -20,6 +20,5 @@ namespace TaskManagementSystem.Data.Models
         public User User { get; set; }
     }
 
-    public int? TaskId { get; set; }
-    public Task Task { get; set; }
+    
 }

@@ -6,5 +6,6 @@ namespace TaskManagementSystem.Data.Models
     public class ProjectUser
     {
         public Project Project { get; set; }
+        public int projectId { get; set; }
     }
 }

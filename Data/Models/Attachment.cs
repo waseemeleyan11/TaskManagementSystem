@@ -21,7 +21,6 @@ namespace TaskManagementSystem.Data.Models
         public Project Project { get; set; }
 
 
-        public User User { get; set; }
     }
 }
 

@@ -1,8 +1,9 @@
 using System.ComponentModel.DataAnnotations;
-using TaskManagementSystem.Data.Models;
 
-namespace TaskManagementSystem.Data.Models
+namespace TaskManagementSystem
 {
+    using TaskManagementSystem.Data.Models;
+
     public class User
     {
         [Key]
