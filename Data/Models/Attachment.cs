@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+//19/8
 
 namespace TaskManagementSystem.Data.Models
-
 {
     public class Attachment
     {
@@ -14,7 +14,9 @@ namespace TaskManagementSystem.Data.Models
         public string Type { get; set; }
         public bool IsDeleted { get; set; }
 
+        // Relationships
         public User User { get; set; }
+        public Project Project { get; set; }
+        public Task Task { get; set; }
     }
 }
-

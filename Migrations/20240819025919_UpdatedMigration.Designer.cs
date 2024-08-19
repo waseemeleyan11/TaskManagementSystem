@@ -3,18 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagementSystem.Data;
-//19/8
 
 #nullable disable
 
 namespace TaskManagementSystem.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240819025919_UpdatedMigration")]
+    partial class UpdatedMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,14 +48,35 @@ namespace TaskManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("ProjectId")
+                        .HasColumnType("int");
+
                     b.Property<long>("Size")
                         .HasColumnType("bigint");
+
+                    b.Property<int?>("TaskId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProjectId")
+                        .IsUnique()
+                        .HasFilter("[ProjectId] IS NOT NULL");
+
+                    b.HasIndex("TaskId")
+                        .IsUnique()
+                        .HasFilter("[TaskId] IS NOT NULL");
+
+                    b.HasIndex("UserId")
+                        .IsUnique()
+                        .HasFilter("[UserId] IS NOT NULL");
 
                     b.ToTable("Attachments");
                 });
@@ -130,10 +153,6 @@ namespace TaskManagementSystem.Migrations
                         .HasColumnType("nvarchar(128)");
 
                     b.HasKey("ProjectId");
-
-                    b.HasIndex("AttachmentId")
-                        .IsUnique()
-                        .HasFilter("[AttachmentId] IS NOT NULL");
 
                     b.HasIndex("CreatedById");
 
@@ -252,10 +271,6 @@ namespace TaskManagementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AttachmentId")
-                        .IsUnique()
-                        .HasFilter("[AttachmentId] IS NOT NULL");
-
                     b.HasIndex("CreatedById");
 
                     b.HasIndex("SprintId");
@@ -303,10 +318,6 @@ namespace TaskManagementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProfilePicId")
-                        .IsUnique()
-                        .HasFilter("[ProfilePicId] IS NOT NULL");
-
                     b.ToTable("Users");
                 });
 
@@ -353,6 +364,27 @@ namespace TaskManagementSystem.Migrations
                     b.ToTable("WaterfallProjects", (string)null);
                 });
 
+            modelBuilder.Entity("TaskManagementSystem.Data.Models.Attachment", b =>
+                {
+                    b.HasOne("TaskManagementSystem.Data.Models.Project", "Project")
+                        .WithOne("Attachment")
+                        .HasForeignKey("TaskManagementSystem.Data.Models.Attachment", "ProjectId");
+
+                    b.HasOne("TaskManagementSystem.Data.Models.Task", "Task")
+                        .WithOne("Attachment")
+                        .HasForeignKey("TaskManagementSystem.Data.Models.Attachment", "TaskId");
+
+                    b.HasOne("TaskManagementSystem.Data.Models.User", "User")
+                        .WithOne("ProfilePic")
+                        .HasForeignKey("TaskManagementSystem.Data.Models.Attachment", "UserId");
+
+                    b.Navigation("Project");
+
+                    b.Navigation("Task");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("TaskManagementSystem.Data.Models.Comment", b =>
                 {
                     b.HasOne("TaskManagementSystem.Data.Models.User", "CreatedBy")
@@ -374,17 +406,11 @@ namespace TaskManagementSystem.Migrations
 
             modelBuilder.Entity("TaskManagementSystem.Data.Models.Project", b =>
                 {
-                    b.HasOne("TaskManagementSystem.Data.Models.Attachment", "Attachment")
-                        .WithOne("Project")
-                        .HasForeignKey("TaskManagementSystem.Data.Models.Project", "AttachmentId");
-
                     b.HasOne("TaskManagementSystem.Data.Models.User", "CreatedBy")
                         .WithMany("CreatedProjects")
                         .HasForeignKey("CreatedById")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Attachment");
 
                     b.Navigation("CreatedBy");
                 });
@@ -429,10 +455,6 @@ namespace TaskManagementSystem.Migrations
 
             modelBuilder.Entity("TaskManagementSystem.Data.Models.Task", b =>
                 {
-                    b.HasOne("TaskManagementSystem.Data.Models.Attachment", "Attachment")
-                        .WithOne("Task")
-                        .HasForeignKey("TaskManagementSystem.Data.Models.Task", "AttachmentId");
-
                     b.HasOne("TaskManagementSystem.Data.Models.User", "CreatedBy")
                         .WithMany("CreatedTasks")
                         .HasForeignKey("CreatedById")
@@ -447,22 +469,11 @@ namespace TaskManagementSystem.Migrations
                         .WithMany("Tasks")
                         .HasForeignKey("WaterfallId");
 
-                    b.Navigation("Attachment");
-
                     b.Navigation("CreatedBy");
 
                     b.Navigation("Sprint");
 
                     b.Navigation("Waterfall");
-                });
-
-            modelBuilder.Entity("TaskManagementSystem.Data.Models.User", b =>
-                {
-                    b.HasOne("TaskManagementSystem.Data.Models.Attachment", "ProfilePic")
-                        .WithOne("User")
-                        .HasForeignKey("TaskManagementSystem.Data.Models.User", "ProfilePicId");
-
-                    b.Navigation("ProfilePic");
                 });
 
             modelBuilder.Entity("TaskManagementSystem.Data.Models.UserTask", b =>
@@ -502,20 +513,11 @@ namespace TaskManagementSystem.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TaskManagementSystem.Data.Models.Attachment", b =>
-                {
-                    b.Navigation("Project")
-                        .IsRequired();
-
-                    b.Navigation("Task")
-                        .IsRequired();
-
-                    b.Navigation("User")
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TaskManagementSystem.Data.Models.Project", b =>
                 {
+                    b.Navigation("Attachment")
+                        .IsRequired();
+
                     b.Navigation("ProjectUsers");
                 });
 
@@ -526,6 +528,9 @@ namespace TaskManagementSystem.Migrations
 
             modelBuilder.Entity("TaskManagementSystem.Data.Models.Task", b =>
                 {
+                    b.Navigation("Attachment")
+                        .IsRequired();
+
                     b.Navigation("Comments");
 
                     b.Navigation("UserTasks");
@@ -540,6 +545,9 @@ namespace TaskManagementSystem.Migrations
                     b.Navigation("CreatedSprints");
 
                     b.Navigation("CreatedTasks");
+
+                    b.Navigation("ProfilePic")
+                        .IsRequired();
 
                     b.Navigation("ProjectUsers");
 

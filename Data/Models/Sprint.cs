@@ -1,11 +1,13 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+//19/8
 
 namespace TaskManagementSystem.Data.Models
 {
     public class Sprint
     {
+        [Key]
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime StartDate { get; set; }
@@ -13,13 +15,11 @@ namespace TaskManagementSystem.Data.Models
         public string Status { get; set; }
         public bool IsDeleted { get; set; }
 
-        public int? AgileId { get; set; }
+        // Relationships
+        public int AgileId { get; set; }
         public Agile Agile { get; set; }
-
-        public int? UserId { get; set; }
-        public User User { get; set; }
-
-
-
+        public int CreatedById { get; set; }
+        public User CreatedBy { get; set; }
+        public ICollection<Task> Tasks { get; set; }
     }
 }

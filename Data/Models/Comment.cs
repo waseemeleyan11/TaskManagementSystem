@@ -1,16 +1,21 @@
-using TaskManagementSystem.Data.Models;
-using Task = TaskManagementSystem.Data.Models.Task;
+using System;
+using System.ComponentModel.DataAnnotations;
+//19/8
 
-public class Comment
+namespace TaskManagementSystem.Data.Models
 {
-    public int CommentId { get; set; }
-    public string CommentText { get; set; }
-    public DateTime CreatedAt { get; set; }
-    public bool IsDeleted { get; set; }
+    public class Comment
+    {
+        [Key]
+        public int CommentId { get; set; }
+        public string CommentText { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public bool IsDeleted { get; set; }
 
-    public int? UserId { get; set; }
-    public User User { get; set; }
-
-    public int? TaskId { get; set; }
-    public Task Task { get; set; }
+        // Relationships
+        public int TaskId { get; set; }
+        public Task Task { get; set; }
+        public int CreatedById { get; set; }
+        public User CreatedBy { get; set; }
+    }
 }
