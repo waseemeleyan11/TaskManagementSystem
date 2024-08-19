@@ -22,5 +22,7 @@ namespace TaskManagementSystem.Data.Models
 
         public ICollection<UserTask> UserTasks { get; set; }
         public ICollection<Comment> Comments { get; set; }
+        public ICollection<UserTask> UserTasks { get; set; }
+
     }
 }

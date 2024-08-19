@@ -1,9 +1,13 @@
-﻿namespace TaskManagementSystem.Data.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TaskManagementSystem.Data.Models
 {
     public class Agile : Project
 
     {
-        public TimeSpan TimeForEachSprint { get; set; }
+
+        public int TimeForEageSprint { get; set; }
+
         public ICollection<Sprint> Sprints { get; set; }
     }
 }
