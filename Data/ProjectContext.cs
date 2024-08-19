@@ -99,7 +99,7 @@ namespace TaskManagementSystem.Data
 
         //    modelBuilder.Entity<Waterfall>().HasOne<User>(u => u.User)
            //     .WithMany(u => u.Waterfalls).HasForeignKey(u=> u.userId);
-
+           //
             modelBuilder.Entity<Waterfall>()
             .HasMany(u => u.Tasks)    // A User has many Tasks
             .WithOne(t => t.Waterfall)    // Each Task has one User
