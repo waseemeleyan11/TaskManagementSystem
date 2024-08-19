@@ -6,6 +6,6 @@
         //Sama Test
 
         public DateTime ExpectedEndTime { get; set; }
-        public ICollection<Task> Tasks { get; set; }
+        //public ICollection<Task> Tasks { get; set; }
     }
 }

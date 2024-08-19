@@ -15,24 +15,24 @@ namespace TaskManagementSystem.Data.Models
         public DateTime LastLogin { get; set; }
         public bool IsDeleted { get; set; }
         //AnotherTest
-        public int? AttachmentId { get; set; }
-        //Test
-        public Attachment Attachment { get; set; }
+        //public int? AttachmentId { get; set; }
+        ////Test
+        //public Attachment Attachment { get; set; }
         //public Project Project { get; set; }
       //  public Task Task { get; set; }
         //public Sprint Sprint { get; set; }
         //public Agile Agile { get; set; }
-        public ICollection<Agile> Agiles { get; set; }
+        //public ICollection<Agile> Agiles { get; set; }
 
-        public ICollection<Waterfall> Waterfalls { get; set; }
+        //public ICollection<Waterfall> Waterfalls { get; set; }
 
-        public ICollection<Comment> Comments { get; set; }
-        public ICollection<Task> Tasks { get; set; }
-        public ICollection<Sprint> Sprints { get; set; }
+        //public ICollection<Comment> Comments { get; set; }
+        //public ICollection<Task> Tasks { get; set; }
+        //public ICollection<Sprint> Sprints { get; set; }
 
-        public ICollection<Project> Projects { get; set; }
-        public ICollection<ProjectUser> ProjectUsers { get; set; }
-        public ICollection<UserTask> UserTasks { get; set; }
+        //public ICollection<Project> Projects { get; set; }
+        //public ICollection<ProjectUser> ProjectUsers { get; set; }
+        //public ICollection<UserTask> UserTasks { get; set; }
 
 
 
