@@ -10,31 +10,31 @@ namespace TaskManagementSystem.Data.Models
     public class Project
     {
         [Key]
-        public int projectId { get; set; }
+        public int ProjectId { get; set; }
         [Required]
         [StringLength(128)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public DateTime expectedDateToStart { get; set; }
+        public DateTime ExpectedDateToStart { get; set; }
         [Required,StringLength(128)]
-        public string status { get; set; }
+        public string Status { get; set; }
         [Required]
         [DefaultValue(true)]
-        public bool flag { get; set; }
+        public bool Flag { get; set; }
         [StringLength(256)]
-        public string link { get; set; }
+        public string Link { get; set; }
         [DefaultValue(false)]
-        public bool isDeleted { get; set; }
+        public bool IsDeleted { get; set; }
         
-        public User User { get; set; }
-        public int userID { get; set; }
+        public User CreatedBy { get; set; }
+        public int CreatedById { get; set; }
         public ICollection<ProjectUser> ProjectUsers { get; set; }
 
         
         public Attachment Attachment { get; set; }
 
         [Required]
-        public int attachmentId { get; set; }
+        public int? AttachmentId { get; set; }
 
 
 

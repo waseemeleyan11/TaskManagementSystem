@@ -21,6 +21,9 @@ namespace TaskManagementSystem.Data.Models
         
         public int SprintId { get; set; }
         public Sprint Sprint { get; set; }
+        public Waterfall Waterfall { get; set; }
+        public int WaterfallId { get; set; }
+
         /*
         public int ProjectId { get; set; }
        // public Project Project { get; set; }
