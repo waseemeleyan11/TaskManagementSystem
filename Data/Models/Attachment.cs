@@ -14,7 +14,7 @@ namespace TaskManagementSystem.Data.Models
         public bool IsDeleted { get; set; }
 
         // Relationships
-        public User User { get; set; }
+        public User AddedBy { get; set; }
         public Project Project { get; set; }
         public Task Task { get; set; }
     }

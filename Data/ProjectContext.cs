@@ -35,12 +35,12 @@ namespace TaskManagementSystem.Data
             // ProjectUser relationships
 
             modelBuilder.Entity<ProjectUser>()
-            .HasKey(pu => new { pu.UserId, pu.ProjectId });
+            .HasKey(pu => new { pu.DeveloperId, pu.ProjectId });
 
             modelBuilder.Entity<ProjectUser>()
-                .HasOne(pu => pu.User)
+                .HasOne(pu => pu.Developer)
                 .WithMany(u => u.ProjectUsers)
-                .HasForeignKey(pu => pu.UserId);
+                .HasForeignKey(pu => pu.DeveloperId);
 
             modelBuilder.Entity<ProjectUser>()
                 .HasOne(pu => pu.Project)
@@ -49,12 +49,12 @@ namespace TaskManagementSystem.Data
 
             // UserTask relationships
             modelBuilder.Entity<UserTask>()
-            .HasKey(ut => new { ut.UserId, ut.TaskId });
+            .HasKey(ut => new { ut.DeveloperId, ut.TaskId });
 
             modelBuilder.Entity<UserTask>()
-                .HasOne(ut => ut.User)
+                .HasOne(ut => ut.Developer)
                 .WithMany(u => u.UserTasks)
-                .HasForeignKey(ut => ut.UserId);
+                .HasForeignKey(ut => ut.DeveloperId);
 
             modelBuilder.Entity<UserTask>()
                 .HasOne(ut => ut.Task)
@@ -63,14 +63,14 @@ namespace TaskManagementSystem.Data
 
             // Project relationships
             modelBuilder.Entity<Project>()
-                .HasOne(p => p.User)
-                .WithMany(u => u.Projects)
-                .HasForeignKey(p => p.UserId);
+                .HasOne(p => p.CreatedBy)
+                .WithMany(u => u.CreatedProjects)
+                .HasForeignKey(p => p.CreatedById);
 
             modelBuilder.Entity<Project>()
-                .HasOne(p => p.Attachment)
+                .HasOne(p => p.AddedAttachment)
                 .WithOne(a => a.Project)
-                .HasForeignKey<Project>(p => p.AttachmentId);
+                .HasForeignKey<Project>(p => p.AddedAttachmentId);
 
             // Agile relationships
             modelBuilder.Entity<Agile>()
@@ -86,9 +86,9 @@ namespace TaskManagementSystem.Data
 
             // Sprint relationships
             modelBuilder.Entity<Sprint>()
-                .HasOne(s => s.User)
-                .WithMany(u => u.Sprints)
-                .HasForeignKey(s => s.UserId);
+                .HasOne(s => s.CreatedBy)
+                .WithMany(u => u.CreatedSprints)
+                .HasForeignKey(s => s.CreatedById);
 
             modelBuilder.Entity<Sprint>()
                 .HasMany(s => s.Tasks)
@@ -107,25 +107,25 @@ namespace TaskManagementSystem.Data
                 .HasForeignKey(t => t.WaterfallId);
 
             modelBuilder.Entity<Task>()
-                .HasOne(t => t.Attachment)
+                .HasOne(t => t.AddedAttachment)
                 .WithOne(a => a.Task)
-                .HasForeignKey<Task>(t => t.AttachmentId);
+                .HasForeignKey<Task>(t => t.AddedAttachmentId);
 
             modelBuilder.Entity<Task>()
-                .HasOne(t => t.User)
-                .WithMany(u => u.Tasks)
-                .HasForeignKey(t => t.UserId);
+                .HasOne(t => t.CreatedBy)
+                .WithMany(u => u.CreatedTasks)
+                .HasForeignKey(t => t.CreatedById);
 
             modelBuilder.Entity<Task>()
-                .HasMany(t => t.Comments)
+                .HasMany(t => t.addedComments)
                 .WithOne(c => c.Task)
                 .HasForeignKey(c => c.TaskId);
 
             // Comment relationships
             modelBuilder.Entity<Comment>()
-                .HasOne(c => c.User)
+                .HasOne(c => c.AddedBy)
                 .WithMany(u => u.Comments)
-                .HasForeignKey(c => c.UserId);
+                .HasForeignKey(c => c.AddedById);
             // Inheritance configuration
             modelBuilder.Entity<Agile>()
                 .ToTable("AgileProjects");

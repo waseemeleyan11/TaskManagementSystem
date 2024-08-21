@@ -14,7 +14,7 @@ namespace TaskManagementSystem.Data.Models
         // Relationships
         public int TaskId { get; set; }
         public Task Task { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int AddedById { get; set; }
+        public User AddedBy { get; set; }
     }
 }

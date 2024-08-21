@@ -22,10 +22,10 @@ namespace TaskManagementSystem.Data.Models
         public bool IsDeleted { get; set; }
 
         // Relationships
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int CreatedById { get; set; }
+        public User CreatedBy { get; set; }
         public ICollection<ProjectUser> ProjectUsers { get; set; }
-        public int? AttachmentId { get; set; }
-        public Attachment Attachment { get; set; }
+        public int? AddedAttachmentId { get; set; }
+        public Attachment AddedAttachment { get; set; }
     }
 }

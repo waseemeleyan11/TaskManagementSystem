@@ -21,11 +21,11 @@ namespace TaskManagementSystem.Data.Models
         public Sprint Sprint { get; set; }
         public int? WaterfallId { get; set; }
         public Waterfall Waterfall { get; set; }
-        public int? AttachmentId { get; set; }
-        public Attachment Attachment { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
+        public int? AddedAttachmentId { get; set; }
+        public Attachment AddedAttachment { get; set; }
+        public int CreatedById { get; set; }
+        public User CreatedBy { get; set;}
         public ICollection<UserTask> UserTasks { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public ICollection<Comment> addedComments { get; set; }
     }
 }

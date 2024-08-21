@@ -17,12 +17,12 @@ namespace TaskManagementSystem.Data.Models
         public bool IsDeleted { get; set; }
 
         // Relationships
-        public ICollection<Project> Projects { get; set; }
+        public ICollection<Project> CreatedProjects { get; set; }
         public ICollection<ProjectUser> ProjectUsers { get; set; }
-        public ICollection<Sprint> Sprints { get; set; }
+        public ICollection<Sprint> CreatedSprints { get; set; }
         public Attachment ProfilePic { get; set; }
         public int? ProfilePicId { get; set; }
-        public ICollection<Task> Tasks { get; set; }
+        public ICollection<Task> CreatedTasks { get; set; }
         public ICollection<UserTask> UserTasks { get; set; }
         public ICollection<Comment> Comments { get; set; }
     }
