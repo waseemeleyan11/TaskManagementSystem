@@ -6,9 +6,9 @@ namespace TaskManagementSystem.Data.Models
 {
     public class ProjectUser
     {
-        [ForeignKey("User")]
         public int UserId { get; set; }
         public User User { get; set; }
-        public int userId { get; set; }
+        public int ProjectId { get; set; }
+        public Project Project { get; set; }
     }
 }

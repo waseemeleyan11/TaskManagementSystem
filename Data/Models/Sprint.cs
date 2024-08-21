@@ -17,12 +17,10 @@ namespace TaskManagementSystem.Data.Models
         public string status { get; set; }
         [DefaultValue(false)]
         public bool isDeleted { get; set; }
-        public User User { get; set; }
-        public int UserId { get; set; }
+        
         
         public Agile Agile { get; set; }
         public int AgileId { get; set; }
-        public Agile Agile { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
         public ICollection<Task> Tasks { get; set; }

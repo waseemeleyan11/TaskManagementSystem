@@ -14,8 +14,8 @@ namespace TaskManagementSystem.Data.Models
         public int TaskId { get; set; }
         public Task Task { get; set; }
         
-        public int CreatedById { get; set; }
-        public User CreatedBy { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 
     

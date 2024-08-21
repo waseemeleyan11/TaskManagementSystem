@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TaskManagementSystem.Data;
 
@@ -11,9 +12,11 @@ using TaskManagementSystem.Data;
 namespace TaskManagementSystem.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    partial class ProjectContextModelSnapshot : ModelSnapshot
+    [Migration("20240819122949_CreateDatabase4")]
+    partial class CreateDatabase4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -343,7 +346,7 @@ namespace TaskManagementSystem.Migrations
                     b.HasOne("TaskManagementSystem.Data.Models.Task", "Task")
                         .WithMany("Comments")
                         .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TaskManagementSystem.User", "User")
@@ -362,7 +365,7 @@ namespace TaskManagementSystem.Migrations
                     b.HasOne("TaskManagementSystem.Data.Models.Attachment", "Attachment")
                         .WithOne("Project")
                         .HasForeignKey("TaskManagementSystem.Data.Models.Project", "AttachmentId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TaskManagementSystem.User", "User")
@@ -381,13 +384,13 @@ namespace TaskManagementSystem.Migrations
                     b.HasOne("TaskManagementSystem.Data.Models.Project", "Project")
                         .WithMany("ProjectUsers")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TaskManagementSystem.User", "User")
                         .WithMany("ProjectUsers")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Project");
@@ -406,7 +409,7 @@ namespace TaskManagementSystem.Migrations
                     b.HasOne("TaskManagementSystem.User", "User")
                         .WithMany("Sprints")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Agile");
@@ -418,24 +421,21 @@ namespace TaskManagementSystem.Migrations
                 {
                     b.HasOne("TaskManagementSystem.Data.Models.Attachment", "Attachment")
                         .WithOne("Task")
-                        .HasForeignKey("TaskManagementSystem.Data.Models.Task", "AttachmentId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("TaskManagementSystem.Data.Models.Task", "AttachmentId");
 
                     b.HasOne("TaskManagementSystem.Data.Models.Sprint", "Sprint")
                         .WithMany("Tasks")
-                        .HasForeignKey("SprintId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("SprintId");
 
                     b.HasOne("TaskManagementSystem.User", "User")
                         .WithMany("Tasks")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TaskManagementSystem.Data.Models.Waterfall", "Waterfall")
                         .WithMany("Tasks")
-                        .HasForeignKey("WaterfallId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("WaterfallId");
 
                     b.Navigation("Attachment");
 
@@ -451,13 +451,13 @@ namespace TaskManagementSystem.Migrations
                     b.HasOne("TaskManagementSystem.Data.Models.Task", "Task")
                         .WithMany("UserTasks")
                         .HasForeignKey("TaskId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TaskManagementSystem.User", "User")
                         .WithMany("UserTasks")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Task");
