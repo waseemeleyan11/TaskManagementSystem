@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 //19/8 v2
 
 namespace TaskManagementSystem.Data.Models
@@ -27,6 +28,7 @@ namespace TaskManagementSystem.Data.Models
 
         // Relationships
         public int UserId { get; set; }
+        [AllowNull]
         public User User { get; set; }
         public ICollection<ProjectUser> ProjectUsers { get; set; }
 
