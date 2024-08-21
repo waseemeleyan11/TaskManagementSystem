@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Diagnostics.CodeAnalysis;
+//19/8 v2
 
 namespace TaskManagementSystem.Data.Models
 {
@@ -25,9 +24,10 @@ namespace TaskManagementSystem.Data.Models
         public string Link { get; set; }
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
-        
-        public User CreatedBy { get; set; }
-        public int CreatedById { get; set; }
+
+        // Relationships
+        public int UserId { get; set; }
+        public User User { get; set; }
         public ICollection<ProjectUser> ProjectUsers { get; set; }
 
         

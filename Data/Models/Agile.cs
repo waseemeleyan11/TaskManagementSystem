@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
+﻿using System.Collections.Generic;
+//19/8 v2
 namespace TaskManagementSystem.Data.Models
 {
     public class Agile : Project

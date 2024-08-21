@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+//19/8 v2
 
 
 namespace TaskManagementSystem.Data.Models
@@ -28,16 +28,10 @@ namespace TaskManagementSystem.Data.Models
         public int ProjectId { get; set; }
        // public Project Project { get; set; }
         public Waterfall Waterfall { get; set; }
-        public Project Project { get; set; }
-        
-        
-        
-        
-        public int AttachmentId { get; set; }
-        public Attachment Attachments { get; set; }
-        
-        public int AttachmentId { get; set; }
-        */
+        public int? AttachmentId { get; set; }
+        public Attachment Attachment { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
         public ICollection<UserTask> UserTasks { get; set; }
 
 

@@ -262,6 +262,8 @@ namespace TaskManagementSystem.Migrations
 
                     b.HasIndex("WaterfallId");
 
+                    b.HasIndex("WaterfallprojectId");
+
                     b.ToTable("Tasks");
                 });
 
@@ -413,7 +415,7 @@ namespace TaskManagementSystem.Migrations
                     b.HasOne("TaskManagementSystem.Data.Models.Agile", "Agile")
                         .WithMany("Sprints")
                         .HasForeignKey("AgileId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TaskManagementSystem.Data.Models.User", "CreatedBy")
