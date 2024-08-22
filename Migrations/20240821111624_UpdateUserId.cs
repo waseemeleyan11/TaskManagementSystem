@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TaskManagementSystem.Migrations
 {
     /// <inheritdoc />
-    public partial class CreateDatabase : Migration
+    public partial class UpdateUserId : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -66,12 +66,19 @@ namespace TaskManagementSystem.Migrations
                     Flag = table.Column<bool>(type: "bit", nullable: false),
                     Link = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    AttachmentId = table.Column<int>(type: "int", nullable: false)
+                    AttachmentId = table.Column<int>(type: "int", nullable: false),
+                    CreatedById = table.Column<int>(type: "int", nullable: false),
+                    AddedAttachmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Projects", x => x.ProjectId);
+                    table.ForeignKey(
+                        name: "FK_Projects_Attachments_AddedAttachmentId",
+                        column: x => x.AddedAttachmentId,
+                        principalTable: "Attachments",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Projects_Attachments_AttachmentId",
                         column: x => x.AttachmentId,
@@ -79,8 +86,8 @@ namespace TaskManagementSystem.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Projects_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Projects_Users_CreatedById",
+                        column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -108,21 +115,21 @@ namespace TaskManagementSystem.Migrations
                 name: "ProjectUsers",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    DeveloperId = table.Column<int>(type: "int", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProjectUsers", x => new { x.UserId, x.ProjectId });
+                    table.PrimaryKey("PK_ProjectUsers", x => new { x.DeveloperId, x.ProjectId });
                     table.ForeignKey(
                         name: "FK_ProjectUsers_Projects_ProjectId",
                         column: x => x.ProjectId,
                         principalTable: "Projects",
                         principalColumn: "ProjectId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_ProjectUsers_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_ProjectUsers_Users_DeveloperId",
+                        column: x => x.DeveloperId,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
@@ -158,7 +165,7 @@ namespace TaskManagementSystem.Migrations
                     status = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
                     isDeleted = table.Column<bool>(type: "bit", nullable: false),
                     AgileId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    CreatedById = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -167,14 +174,13 @@ namespace TaskManagementSystem.Migrations
                         name: "FK_Sprints_AgileProjects_AgileId",
                         column: x => x.AgileId,
                         principalTable: "AgileProjects",
-                        principalColumn: "ProjectId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ProjectId");
                     table.ForeignKey(
-                        name: "FK_Sprints_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Sprints_Users_CreatedById",
+                        column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -192,33 +198,35 @@ namespace TaskManagementSystem.Migrations
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     SprintId = table.Column<int>(type: "int", nullable: true),
                     WaterfallId = table.Column<int>(type: "int", nullable: true),
-                    AttachmentId = table.Column<int>(type: "int", nullable: true),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    AddedAttachmentId = table.Column<int>(type: "int", nullable: true),
+                    CreatedById = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tasks", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tasks_Attachments_AttachmentId",
-                        column: x => x.AttachmentId,
+                        name: "FK_Tasks_Attachments_AddedAttachmentId",
+                        column: x => x.AddedAttachmentId,
                         principalTable: "Attachments",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Tasks_Sprints_SprintId",
                         column: x => x.SprintId,
                         principalTable: "Sprints",
-                        principalColumn: "id");
+                        principalColumn: "id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tasks_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Tasks_Users_CreatedById",
+                        column: x => x.CreatedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Tasks_WaterfallProjects_WaterfallId",
                         column: x => x.WaterfallId,
                         principalTable: "WaterfallProjects",
-                        principalColumn: "ProjectId");
+                        principalColumn: "ProjectId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -231,7 +239,7 @@ namespace TaskManagementSystem.Migrations
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     TaskId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    AddedById = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -241,38 +249,43 @@ namespace TaskManagementSystem.Migrations
                         column: x => x.TaskId,
                         principalTable: "Tasks",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Comments_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Comments_Users_AddedById",
+                        column: x => x.AddedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
                 name: "UserTasks",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false),
+                    DeveloperId = table.Column<int>(type: "int", nullable: false),
                     TaskId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserTasks", x => new { x.UserId, x.TaskId });
+                    table.PrimaryKey("PK_UserTasks", x => new { x.DeveloperId, x.TaskId });
                     table.ForeignKey(
                         name: "FK_UserTasks_Tasks_TaskId",
                         column: x => x.TaskId,
                         principalTable: "Tasks",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_UserTasks_Users_UserId",
-                        column: x => x.UserId,
+                        name: "FK_UserTasks_Users_DeveloperId",
+                        column: x => x.DeveloperId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Comments_AddedById",
+                table: "Comments",
+                column: "AddedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_TaskId",
@@ -280,20 +293,20 @@ namespace TaskManagementSystem.Migrations
                 column: "TaskId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Comments_UserId",
-                table: "Comments",
-                column: "UserId");
+                name: "IX_Projects_AddedAttachmentId",
+                table: "Projects",
+                column: "AddedAttachmentId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_AttachmentId",
                 table: "Projects",
-                column: "AttachmentId",
-                unique: true);
+                column: "AttachmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Projects_UserId",
+                name: "IX_Projects_CreatedById",
                 table: "Projects",
-                column: "UserId");
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProjectUsers_ProjectId",
@@ -306,26 +319,26 @@ namespace TaskManagementSystem.Migrations
                 column: "AgileId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sprints_UserId",
+                name: "IX_Sprints_CreatedById",
                 table: "Sprints",
-                column: "UserId");
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Tasks_AttachmentId",
+                name: "IX_Tasks_AddedAttachmentId",
                 table: "Tasks",
-                column: "AttachmentId",
+                column: "AddedAttachmentId",
                 unique: true,
-                filter: "[AttachmentId] IS NOT NULL");
+                filter: "[AddedAttachmentId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tasks_CreatedById",
+                table: "Tasks",
+                column: "CreatedById");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_SprintId",
                 table: "Tasks",
                 column: "SprintId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tasks_UserId",
-                table: "Tasks",
-                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_WaterfallId",

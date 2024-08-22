@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-//19/8 v2
 
 namespace TaskManagementSystem.Data.Models
 {
@@ -21,8 +20,10 @@ namespace TaskManagementSystem.Data.Models
         
         public Agile Agile { get; set; }
         public int AgileId { get; set; }
-        public int UserId { get; set; }
-        public User User { get; set; }
+       
+
+        public int CreatedById { get; set; }
+        public User CreatedBy { get; set; }
         public ICollection<Task> Tasks { get; set; }
 
 

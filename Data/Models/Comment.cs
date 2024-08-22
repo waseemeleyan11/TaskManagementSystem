@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-//19/8 v2
 
 namespace TaskManagementSystem.Data.Models 
 {
@@ -13,9 +12,9 @@ namespace TaskManagementSystem.Data.Models
         
         public int TaskId { get; set; }
         public Task Task { get; set; }
-        
-        public int UserId { get; set; }
-        public User User { get; set; }
+
+        public int AddedById { get; set; }
+        public User AddedBy { get; set; }
     }
 
     

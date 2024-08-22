@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-//19/8 v2
 
 namespace TaskManagementSystem.Data.Models
 {
@@ -12,13 +11,11 @@ namespace TaskManagementSystem.Data.Models
         public long Size { get; set; }
         public string PhysicalPath { get; set; }
         public string Type { get; set; }
-        public bool IsDeleted { get; set; }
-        //Commit test
-        
-        public User User { get; set; }
-        
-        public Task Task { get; set; }
+        public bool IsDeleted { get; set; }        
+
+        public User AddedBy { get; set; }
         public Project Project { get; set; }
+        public Task Task { get; set; }
 
 
     }
