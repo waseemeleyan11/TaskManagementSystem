@@ -34,27 +34,30 @@ namespace TaskManagementSystem.Data
         {
             // ProjectUser relationships
 
-            modelBuilder.Entity<ProjectUser>()
-            .HasKey(pu => new { pu.UserId, pu.ProjectId });
 
             modelBuilder.Entity<ProjectUser>()
-                .HasOne(pu => pu.User)
+            .HasKey(pu => new { pu.DeveloperId, pu.ProjectId });
+
+            modelBuilder.Entity<ProjectUser>()
+                .HasOne(pu => pu.Developer)
                 .WithMany(u => u.ProjectUsers)
-                .HasForeignKey(pu => pu.UserId).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(pu => pu.DeveloperId);
+
 
             modelBuilder.Entity<ProjectUser>()
                 .HasOne(pu => pu.Project)
                 .WithMany(p => p.ProjectUsers)
-                .HasForeignKey(pu => pu.ProjectId).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(pu => pu.ProjectId);
 
             // UserTask relationships
             modelBuilder.Entity<UserTask>()
-            .HasKey(ut => new { ut.UserId, ut.TaskId });
+           .HasKey(pu => new { pu.DeveloperId, pu.TaskId });
+
 
             modelBuilder.Entity<UserTask>()
-                .HasOne(ut => ut.User)
+                .HasOne(ut => ut.Developer)
                 .WithMany(u => u.UserTasks)
-                .HasForeignKey(ut => ut.UserId).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(ut => ut.DeveloperId);
 
             modelBuilder.Entity<UserTask>()
                 .HasOne(ut => ut.Task)
@@ -62,15 +65,13 @@ namespace TaskManagementSystem.Data
                 .HasForeignKey(ut => ut.TaskId).OnDelete(DeleteBehavior.Restrict);
 
             // Project relationships
-            modelBuilder.Entity<Project>()
-                .HasOne(p => p.User)
-                .WithMany(u => u.Projects)
-                .HasForeignKey(p => p.UserId).OnDelete(DeleteBehavior.NoAction);
+            
 
             modelBuilder.Entity<Project>()
-                .HasOne(p => p.Attachment)
+                .HasOne(p => p.AddedAttachment)
                 .WithOne(a => a.Project)
-                .HasForeignKey<Project>(p => p.AttachmentId).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey<Project>(p => p.AddedAttachmentId).OnDelete(DeleteBehavior.Restrict);
+
 
             // Agile relationships
             modelBuilder.Entity<Agile>()
@@ -79,21 +80,15 @@ namespace TaskManagementSystem.Data
                 .HasForeignKey(s => s.AgileId).OnDelete(DeleteBehavior.NoAction);
 
             // Waterfall relationships
-            modelBuilder.Entity<Waterfall>()
-                .HasMany(w => w.Tasks)
-                .WithOne(t => t.Waterfall)
-                .HasForeignKey(t => t.WaterfallId).OnDelete(DeleteBehavior.Restrict);
+          
 
             // Sprint relationships
             modelBuilder.Entity<Sprint>()
-                .HasOne(s => s.User)
+                .HasOne(s => s.CreatedBy)
                 .WithMany(u => u.Sprints)
-                .HasForeignKey(s => s.UserId).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(s => s.CreatedById).OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Sprint>()
-                .HasMany(s => s.Tasks)
-                .WithOne(t => t.Sprint)
-                .HasForeignKey(t => t.SprintId).OnDelete(DeleteBehavior.Restrict);
+            
 
             // Task relationships
             modelBuilder.Entity<Task>()
@@ -107,25 +102,25 @@ namespace TaskManagementSystem.Data
                 .HasForeignKey(t => t.WaterfallId).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Task>()
-                .HasOne(t => t.Attachment)
+                .HasOne(t => t.AddedAttachment)
                 .WithOne(a => a.Task)
-                .HasForeignKey<Task>(t => t.AttachmentId).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey<Task>(t => t.AddedAttachmentId);
 
             modelBuilder.Entity<Task>()
-                .HasOne(t => t.User)
+                .HasOne(t => t.CreatedBy)
                 .WithMany(u => u.Tasks)
-                .HasForeignKey(t => t.UserId).OnDelete(DeleteBehavior.Restrict);
+                .HasForeignKey(t => t.CreatedById).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Task>()
-                .HasMany(t => t.Comments)
+                .HasMany(t => t.addedComments)
                 .WithOne(c => c.Task)
                 .HasForeignKey(c => c.TaskId).OnDelete(DeleteBehavior.Restrict);
 
             // Comment relationships
             modelBuilder.Entity<Comment>()
-                .HasOne(c => c.User)
+                .HasOne(c => c.AddedBy)
                 .WithMany(u => u.Comments)
-                .HasForeignKey(c => c.UserId);
+                .HasForeignKey(c => c.AddedById);
             // Inheritance configuration
             modelBuilder.Entity<Agile>()
                 .ToTable("AgileProjects");

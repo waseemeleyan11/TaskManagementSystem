@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using TaskManagementSystem;
 using TaskManagementSystem.Data;
+using TaskManagementSystem.Data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +23,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
