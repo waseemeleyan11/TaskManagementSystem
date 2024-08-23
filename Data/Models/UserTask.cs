@@ -12,5 +12,7 @@ namespace TaskManagementSystem.Data.Models
         [ForeignKey("Task")]
         public int TaskId { get; set; }
         public Task Task { get; set; }
+
+
     }
 }

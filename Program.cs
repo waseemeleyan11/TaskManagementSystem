@@ -1,12 +1,17 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using System.Text.Json.Serialization;
 using TaskManagementSystem.Data;
+using TaskManagementSystem.Data.IServices;
 using TaskManagementSystem.Data.Models;
+using TaskManagementSystem.Data.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+}); ;
 
 // Configure the database context
 builder.Services.AddDbContext<ProjectContext>(options =>
@@ -15,6 +20,13 @@ builder.Services.AddDbContext<ProjectContext>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
+
+builder.Services.AddAutoMapper(typeof(Program));
+builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddScoped<IProjectService, ProjectService>();
 
 var app = builder.Build();
 
