@@ -128,6 +128,16 @@ namespace TaskManagementSystem.Data
             modelBuilder.Entity<Waterfall>()
                 .ToTable("WaterfallProjects");
 
+            modelBuilder.Entity<Sprint>()
+            .HasKey(s => s.id);
+
+            modelBuilder.Entity<Project>()
+            .Property(p => p.Status)
+            .HasConversion(
+                v => v.ToString(), 
+                v => (EnumProject)Enum.Parse(typeof(EnumProject), v) 
+            );
+
             base.OnModelCreating(modelBuilder);
         }
     }

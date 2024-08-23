@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace TaskManagementSystem.Data.Models
 {
-    //SamaComment
+    
     public class Project
     {
         [Key]
@@ -17,7 +17,7 @@ namespace TaskManagementSystem.Data.Models
 
         public DateTime ExpectedDateToStart { get; set; }
         [Required,StringLength(128)]
-        public string Status { get; set; }
+        public EnumProject Status { get; set; }
         [Required]
         [DefaultValue(true)]
         public bool Flag { get; set; }

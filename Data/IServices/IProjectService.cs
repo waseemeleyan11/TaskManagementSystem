@@ -10,8 +10,8 @@ namespace TaskManagementSystem.Data.IServices
     public interface IProjectService
     {
         Task<Project> CreateProjectAsync(ProjectDTO post);
-        Task<List<ProjectDTO>> GetProjectsAsync();
-        Task<ProjectDTO> GetProjectAsyncById(int id);
+        Task<List<ProjectDTOGet>> GetProjectsAsync();
+        Task<ProjectDTOGet> GetProjectAsyncById(int id);
         Task<Project> UpdateProjectAsync(ProjectDTOWithOutUserid project, int id);
         Task<Project> DeleteProjectAsync(int id);
     }

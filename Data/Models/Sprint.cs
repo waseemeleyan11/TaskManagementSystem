@@ -6,7 +6,6 @@ namespace TaskManagementSystem.Data.Models
     public class Sprint
     {
         [Key]
-        [Required]
         public int id { get; set; }
         [StringLength(256)]
         public string name { get; set; }

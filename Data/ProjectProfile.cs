@@ -11,6 +11,9 @@ namespace TaskManagementSystem.Data
         {
             CreateMap<Project, ProjectDTO>().ReverseMap();
             CreateMap<Project, ProjectDTOWithOutUserid>().ReverseMap();
+            CreateMap<Project, ProjectDTOGet>().ReverseMap();
+
+
 
         }
     }

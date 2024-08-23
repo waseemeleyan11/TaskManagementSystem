@@ -49,18 +49,18 @@ namespace TaskManagementSystem.Data.Services
         
 
 
-        public async Task<List<ProjectDTO>> GetProjectsAsync()
+        public async Task<List<ProjectDTOGet>> GetProjectsAsync()
         {
 
             try
             {
                 var projects= await _context.Projects.ToListAsync();
-                var projectDto = iMapper.Map<List<ProjectDTO>>(projects);
+                var projectDto = iMapper.Map<List<ProjectDTOGet>>(projects);
                 return projectDto;
             }
             catch (Exception ex)
             {
-                return new List<ProjectDTO>();
+                return new List<ProjectDTOGet>();
             }
 
 
@@ -68,18 +68,18 @@ namespace TaskManagementSystem.Data.Services
 
         }
 
-        public async Task<ProjectDTO> GetProjectAsyncById(int id)
+        public async Task<ProjectDTOGet> GetProjectAsyncById(int id)
         {
             try
             {
                 var projects = await _context.Projects.FindAsync(id);
 
-                var projectDto = iMapper.Map<ProjectDTO>(projects);
+                var projectDto = iMapper.Map<ProjectDTOGet>(projects);
                 return projectDto;
             }
             catch (Exception ex)
             {
-                return new ProjectDTO();
+                return new ProjectDTOGet();
             }
         }
 
@@ -90,12 +90,13 @@ namespace TaskManagementSystem.Data.Services
                 throw new ArgumentNullException(nameof(updateProject));
             }
             var update = await _context.Projects.FindAsync(id);
-            update.Status = updateProject.Status;
+            //update.Status = updateProject.Status;
             update.Flag = updateProject.Flag;   
             update.ExpectedDateToStart = updateProject.ExpectedDateToStart;
             update.Name = updateProject.Name;
             update.Link=updateProject.Link;
             update.AddedAttachmentId = updateProject.AddedAttachmentId;
+            update.Status=(EnumProject)updateProject.Status; 
 
 
             _context.SaveChangesAsync();

@@ -12,8 +12,8 @@ using TaskManagementSystem.Data;
 namespace TaskManagementSystem.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20240821114620_UpdateProject")]
-    partial class UpdateProject
+    [Migration("20240822163340_updateEnum")]
+    partial class updateEnum
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

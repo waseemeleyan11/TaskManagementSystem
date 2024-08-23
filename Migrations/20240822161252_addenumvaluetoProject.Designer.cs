@@ -12,8 +12,8 @@ using TaskManagementSystem.Data;
 namespace TaskManagementSystem.Migrations
 {
     [DbContext(typeof(ProjectContext))]
-    [Migration("20240821111624_UpdateUserId")]
-    partial class UpdateUserId
+    [Migration("20240822161252_addenumvaluetoProject")]
+    partial class addenumvaluetoProject
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -105,9 +105,6 @@ namespace TaskManagementSystem.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
-                    b.Property<int>("AttachmentId")
-                        .HasColumnType("int");
-
                     b.Property<int>("CreatedById")
                         .HasColumnType("int");
 
@@ -130,17 +127,14 @@ namespace TaskManagementSystem.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("nvarchar(128)");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
+                    b.Property<int>("Status")
                         .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("int");
 
                     b.HasKey("ProjectId");
 
                     b.HasIndex("AddedAttachmentId")
                         .IsUnique();
-
-                    b.HasIndex("AttachmentId");
 
                     b.HasIndex("CreatedById");
 
@@ -373,12 +367,6 @@ namespace TaskManagementSystem.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TaskManagementSystem.Data.Models.Attachment", "Attachment")
-                        .WithMany()
-                        .HasForeignKey("AttachmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("TaskManagementSystem.User", "CreatedBy")
                         .WithMany("Projects")
                         .HasForeignKey("CreatedById")
@@ -386,8 +374,6 @@ namespace TaskManagementSystem.Migrations
                         .IsRequired();
 
                     b.Navigation("AddedAttachment");
-
-                    b.Navigation("Attachment");
 
                     b.Navigation("CreatedBy");
                 });
