@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TaskManagementSystem.Data.Models
+namespace TaskManagementSystem.DTO
 {
-    public class Attachment
+    public class AttachmentDTO
     {
         [Key]
         public int Id { get; set; }
@@ -12,10 +12,5 @@ namespace TaskManagementSystem.Data.Models
         public string PhysicalPath { get; set; }
         public string Type { get; set; }
         public bool IsDeleted { get; set; }
-
-        // Relationships
-        public User AddedBy { get; set; }
-        public Project Project { get; set; }
-        public Task Task { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using TaskManagementSystem.Data;
-using TaskManagementSystem;
+using TaskManagementSystem.Data.Models;
 
 namespace TaskManagementSystem
 {
@@ -29,12 +30,12 @@ namespace TaskManagementSystem
             var app = builder.Build();
 
 
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
             app.UseHttpsRedirection();
 
@@ -42,7 +43,4 @@ namespace TaskManagementSystem
 
             app.MapControllers();
 
-            app.Run();
-        }
-    }
-}
+app.Run();

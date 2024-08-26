@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text.Json;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using TaskManagementSystem.Data;
 using TaskManagementSystem.Data.Models;
@@ -17,21 +14,19 @@ namespace TaskManagementSystem.Services
 		{
                 _httpClient = httpClient;
             _projectContext = projectContext;
-            
-
         }
-            public async Task<List<Attachment>> GetAllPostsAsync()
+            public async Task<List<Attachment>> GetAllAttachment()
             {
-                var response = await _httpClient.GetAsync("posts");
-                response.EnsureSuccessStatusCode();
-                var responseBody = await response.Content.ReadAsStringAsync();
+            try
+            {
 
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-
-                return JsonSerializer.Deserialize<List<Attachment>>(responseBody, options);
+                return await _projectContext.Attachments.ToListAsync();
             }
-	}
+            catch(Exception ex)
+            {
+                return new List<Attachment>();
+            }
+            }
+        }
+	
 }
