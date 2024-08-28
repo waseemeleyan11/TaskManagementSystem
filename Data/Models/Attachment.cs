@@ -11,11 +11,13 @@ namespace TaskManagementSystem.Data.Models
         public long Size { get; set; }
         public string PhysicalPath { get; set; }
         public string Type { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }        
 
-        // Relationships
         public User AddedBy { get; set; }
         public Project Project { get; set; }
         public Task Task { get; set; }
+
+
     }
 }
+

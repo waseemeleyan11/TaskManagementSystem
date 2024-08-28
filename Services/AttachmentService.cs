@@ -24,18 +24,22 @@ namespace TaskManagementSystem.Services
             
 
         }
-            public async Task<List<Attachment>> GetAllAttachment()
-            {
+      
+        public async Task<List<AttachmentDTO>> GetAllAttachment()
+        {
             try
             {
-
-                return await _AttachmentContext.Attachments.ToListAsync();
+                var attachments = await _AttachmentContext.Attachments.Where(e => e.IsDeleted == false).ToListAsync();
+                List<AttachmentDTO> attachmentDto = _imapper.Map<List<AttachmentDTO>>(attachments);
+                return attachmentDto;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return new List<Attachment>();
+                // Handle the exception or log it as needed
+                return new List<AttachmentDTO>();
             }
-            }
+        }
+
         public async Task<AttachmentDTO> GetAttachmentById(int id)
         {
             try
@@ -109,6 +113,19 @@ namespace TaskManagementSystem.Services
 
 
             return update;
+        }
+        public async Task<Attachment> RecoveryAttachmentAsync(int id)
+        {
+            var Attachment = await _AttachmentContext.Attachments.FindAsync(id);
+            if (Attachment == null)
+            {
+                throw new ArgumentNullException(nameof(Attachment));
+            }
+            Attachment.IsDeleted = false;
+
+            await _AttachmentContext.SaveChangesAsync();
+
+            return Attachment;
         }
     }
 

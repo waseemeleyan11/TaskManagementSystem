@@ -34,6 +34,7 @@ namespace TaskManagementSystem.Data
         {
             // ProjectUser relationships
 
+
             modelBuilder.Entity<ProjectUser>()
             .HasKey(pu => new { pu.DeveloperId, pu.ProjectId });
 
@@ -42,14 +43,18 @@ namespace TaskManagementSystem.Data
                 .WithMany(u => u.ProjectUsers)
                 .HasForeignKey(pu => pu.DeveloperId);
 
+
             modelBuilder.Entity<ProjectUser>()
                 .HasOne(pu => pu.Project)
                 .WithMany(p => p.ProjectUsers)
                 .HasForeignKey(pu => pu.ProjectId);
 
+           
+
             // UserTask relationships
             modelBuilder.Entity<UserTask>()
-            .HasKey(ut => new { ut.DeveloperId, ut.TaskId });
+           .HasKey(pu => new { pu.DeveloperId, pu.TaskId });
+
 
             modelBuilder.Entity<UserTask>()
                 .HasOne(ut => ut.Developer)
@@ -59,52 +64,44 @@ namespace TaskManagementSystem.Data
             modelBuilder.Entity<UserTask>()
                 .HasOne(ut => ut.Task)
                 .WithMany(t => t.UserTasks)
-                .HasForeignKey(ut => ut.TaskId);
+                .HasForeignKey(ut => ut.TaskId).OnDelete(DeleteBehavior.Restrict);
 
             // Project relationships
-            modelBuilder.Entity<Project>()
-                .HasOne(p => p.CreatedBy)
-                .WithMany(u => u.CreatedProjects)
-                .HasForeignKey(p => p.CreatedById);
+            
 
             modelBuilder.Entity<Project>()
                 .HasOne(p => p.AddedAttachment)
                 .WithOne(a => a.Project)
-                .HasForeignKey<Project>(p => p.AddedAttachmentId);
+                .HasForeignKey<Project>(p => p.AddedAttachmentId).OnDelete(DeleteBehavior.Restrict);
+
 
             // Agile relationships
             modelBuilder.Entity<Agile>()
                 .HasMany(a => a.Sprints)
                 .WithOne(s => s.Agile)
-                .HasForeignKey(s => s.AgileId);
+                .HasForeignKey(s => s.AgileId).OnDelete(DeleteBehavior.NoAction);
 
             // Waterfall relationships
-            modelBuilder.Entity<Waterfall>()
-                .HasMany(w => w.Tasks)
-                .WithOne(t => t.Waterfall)
-                .HasForeignKey(t => t.WaterfallId);
+          
 
             // Sprint relationships
             modelBuilder.Entity<Sprint>()
                 .HasOne(s => s.CreatedBy)
                 .WithMany(u => u.CreatedSprints)
-                .HasForeignKey(s => s.CreatedById);
+                .HasForeignKey(s => s.CreatedById).OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Sprint>()
-                .HasMany(s => s.Tasks)
-                .WithOne(t => t.Sprint)
-                .HasForeignKey(t => t.SprintId);
+            
 
             // Task relationships
             modelBuilder.Entity<Task>()
                 .HasOne(t => t.Sprint)
                 .WithMany(s => s.Tasks)
-                .HasForeignKey(t => t.SprintId);
+                .HasForeignKey(t => t.SprintId).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Task>()
                 .HasOne(t => t.Waterfall)
                 .WithMany(w => w.Tasks)
-                .HasForeignKey(t => t.WaterfallId);
+                .HasForeignKey(t => t.WaterfallId).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Task>()
                 .HasOne(t => t.AddedAttachment)
@@ -114,12 +111,12 @@ namespace TaskManagementSystem.Data
             modelBuilder.Entity<Task>()
                 .HasOne(t => t.CreatedBy)
                 .WithMany(u => u.CreatedTasks)
-                .HasForeignKey(t => t.CreatedById);
+                .HasForeignKey(t => t.CreatedById).OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Task>()
                 .HasMany(t => t.addedComments)
                 .WithOne(c => c.Task)
-                .HasForeignKey(c => c.TaskId);
+                .HasForeignKey(c => c.TaskId).OnDelete(DeleteBehavior.Restrict);
 
             // Comment relationships
             modelBuilder.Entity<Comment>()
@@ -132,6 +129,13 @@ namespace TaskManagementSystem.Data
 
             modelBuilder.Entity<Waterfall>()
                 .ToTable("WaterfallProjects");
+
+            modelBuilder.Entity<Sprint>()
+            .HasKey(s => s.id);
+
+            modelBuilder.Entity<Project>()
+            .Property(p => p.Status);
+            
 
             base.OnModelCreating(modelBuilder);
         }
